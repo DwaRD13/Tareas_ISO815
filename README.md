@@ -6,7 +6,7 @@ Agregar documentos de soporte para el desarrollo
 
 Crear el programa en cuestión
 
-Para subir los cambios, crear una rama con la nomenclatura: Feature/{nombreDeLoQueSeVaHacer}
+Para subir los cambios, crear una rama con la nomenclatura: Feature/{inicialesPrograma}-{nombreDeLoQueSeVaHacer}
 
 La rama actualizada seria develop, y los cambios deben apuntar a esta.
 
@@ -20,3 +20,4 @@ Hacer una fila y salir por orden alfabetico.
 Gracias!
 
 Darwin was here!
+
