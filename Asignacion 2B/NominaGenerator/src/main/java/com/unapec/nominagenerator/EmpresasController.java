@@ -2,8 +2,11 @@ package com.unapec.nominagenerator;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class EmpresasController {
 
@@ -14,7 +17,13 @@ public class EmpresasController {
     private Button btnRegistrarCuenta;
 
     @FXML
+    private ComboBox<?> cbFormaDePago;
+
+    @FXML
     private Label lbNoDeCuenta;
+
+    @FXML
+    private Label lbNoDeCuenta1;
 
     @FXML
     private Label lbNombreTab;

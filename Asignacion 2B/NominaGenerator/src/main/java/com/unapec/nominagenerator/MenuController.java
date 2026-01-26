@@ -8,8 +8,6 @@ import javafx.event.ActionEvent;
 
 public class MenuController {
 
-    private String name;
-
     @FXML
     private Button btnEnvioNombre;
 
@@ -32,6 +30,12 @@ public class MenuController {
     private EmpresasController empresasViewController;
 
     @FXML
+    private NominaController nominaViewController;
+
+    @FXML
+    private EmpleadosController empleadosViewController;
+
+    @FXML
     private void guardarNombre(ActionEvent event) {
         textFieldNombre.setVisible(false);
         btnEnvioNombre.setVisible(false);
@@ -42,7 +46,7 @@ public class MenuController {
             lbMensajeDeNombre.setText("¡No creo que tengas un nombre tan feo! \n ¡Prueba con Licey Campeon \uD83D\uDE0E!");
         }else{
             lbSaludos.setText("Saludos Sr(a). " + textFieldNombre.getText());
-            name = textFieldNombre.getText();
+            String name = textFieldNombre.getText();
             lbMensajeBienvenida.setVisible(true);
             lbSaludos.setVisible(true);
 
@@ -50,6 +54,18 @@ public class MenuController {
                 empresasViewController.recibirDatosUsuario(name);
             } else {
                 System.out.println("Error: El controlador de empresas no se ha cargado.");
+            }
+
+            if (empleadosViewController != null) {
+                empleadosViewController.recibirDatosUsuario(name);
+            } else {
+                System.out.println("Aviso: El controlador de empleados no se ha cargado.");
+            }
+
+            if (nominaViewController != null) {
+                nominaViewController.recibirDatosUsuario(name);
+            } else {
+                System.out.println("Error: El controlador de Nomina no se ha cargado.");
             }
         }
     }
