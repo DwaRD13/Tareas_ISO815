@@ -28,9 +28,6 @@ public class EmpresasController {
     private Label lbCantidadEmpleados;
 
     @FXML
-    private Label lbColaboradores;
-
-    @FXML
     private Label lbCuentaBancaria;
 
     @FXML
@@ -61,21 +58,6 @@ public class EmpresasController {
     private Label lbTabUsuarioDeseo;
 
     @FXML
-    private TableView<Empleado> tbVwEmpleados;
-
-    @FXML
-    private TableColumn<Empleado, String> colCedula;
-
-    @FXML
-    private TableColumn<Empleado, String> colCuentaBancaria;
-
-    @FXML
-    private TableColumn<Empleado, String> colTipoCuenta;
-
-    @FXML
-    private TableColumn<Empleado, Double> colSalario;
-
-    @FXML
     private TextField txtConsultaRNC;
 
     @FXML
@@ -86,6 +68,16 @@ public class EmpresasController {
 
     @FXML
     private TextField txtRNC;
+
+    @FXML
+    private ListView<String> txtViewDatosEmpresa;
+
+    @FXML
+    private MenuController mainController;
+
+    public void setMainController(MenuController mainController) {
+        this.mainController = mainController;
+    }
 
     @FXML
     void registrarEmpresa(ActionEvent event) { // Agregar Validaciones
@@ -103,9 +95,14 @@ public class EmpresasController {
     void consultarEmpresa(ActionEvent event) {
         EmpresaRepository repository = new EmpresaRepository();
         EmpleadoRepository empleadoRepository = new EmpleadoRepository();
-        Empresa empresaConsultada = repository.buscarEmpresa(Long.valueOf(txtConsultaRNC.getText()));
+        Empresa empresaConsultada = repository.buscarEmpresa(txtConsultaRNC.getText());
 
         if(Objects.nonNull(empresaConsultada)) {
+
+            if (mainController != null) {
+                mainController.compartirIdEmpresa(empresaConsultada.getId());
+            }
+
             List<Empleado> empleadoList = empleadoRepository.listaEmpleado(empresaConsultada.getId());
 
             lbNombreEmpresa.setVisible(true);
@@ -121,14 +118,33 @@ public class EmpresasController {
             lbCantidadEmpleados.setText("Cantidad de Empleados: " + empleadoList.size());
 
             if(empleadoList.isEmpty()) {
-                tbVwEmpleados.setAccessibleText("Aun no tienes empleados registrados.");
+                txtViewDatosEmpresa.setAccessibleText("Aun no tienes empleados registrados.");
             }else{
-                ObservableList<Empleado> obs = FXCollections.observableArrayList(empleadoList);
-                tbVwEmpleados.setItems(obs);
+                ObservableList<String> items = FXCollections.observableArrayList();
+                items.add("Nombre: " + safe(empresaConsultada.getNombre()));
+                items.add("Cuenta bancaria: " + safe(empresaConsultada.getCuentaBancaria()));
+                items.add("RNC: " + safe(empresaConsultada.getRNC().toString()));
+                items.add("Forma de Pago: " + empresaConsultada.getFormaPago());
+                items.add("Cantidad de Empleados: " + empleadoList.size());
+                if (!empleadoList.isEmpty()) {
+                    empleadoList.forEach(empleado -> {
+                        items.add("Cedula: " + safe(empleado.getCedula()));
+                        items.add("Cuenta Bancaria: " + safe(empleado.getCuentaBancaria()));
+                        items.add("Salario: " + String.format("%,.2f", empleado.getSalario()));
+                    });
+
+                } else {
+                    items.add("Empresa: no encontrada");
+                }
+
+                txtViewDatosEmpresa.setItems(items);
             }
         }
     }
 
+    private String safe(String s) {
+        return s == null ? "" : s;
+    }
 
     public void recibirDatosUsuario(String nombre) {
         lbNombreTab.setText("Sr(a). " + nombre);

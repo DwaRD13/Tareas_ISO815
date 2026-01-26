@@ -36,13 +36,20 @@ public class MenuController {
     private EmpleadosController empleadosViewController;
 
     @FXML
+    public void initialize() {
+        if (empresasViewController != null) {
+            empresasViewController.setMainController(this);
+        }
+    }
+
+    @FXML
     private void guardarNombre(ActionEvent event) {
         textFieldNombre.setVisible(false);
         btnEnvioNombre.setVisible(false);
         lbMensajeDeNombre.setVisible(true);
         lbInputName.setVisible(false);
 
-        if(textFieldNombre.getText().equals("Aguilucho") || textFieldNombre.getText().equals("Aguilas") ){
+        if(textFieldNombre.getText().equalsIgnoreCase("Aguilucho") || textFieldNombre.getText().equalsIgnoreCase("Aguilas") ){
             lbMensajeDeNombre.setText("¡No creo que tengas un nombre tan feo! \n ¡Prueba con Licey Campeon \uD83D\uDE0E!");
         }else{
             lbSaludos.setText("Saludos Sr(a). " + textFieldNombre.getText());
@@ -52,21 +59,24 @@ public class MenuController {
 
             if (empresasViewController != null) {
                 empresasViewController.recibirDatosUsuario(name);
-            } else {
-                System.out.println("Error: El controlador de empresas no se ha cargado.");
             }
 
             if (empleadosViewController != null) {
                 empleadosViewController.recibirDatosUsuario(name);
-            } else {
-                System.out.println("Aviso: El controlador de empleados no se ha cargado.");
             }
 
             if (nominaViewController != null) {
                 nominaViewController.recibirDatosUsuario(name);
-            } else {
-                System.out.println("Error: El controlador de Nomina no se ha cargado.");
             }
+        }
+    }
+
+    public void compartirIdEmpresa(Long idEmpresa) {
+        System.out.println("MenuController recibió el ID: " + idEmpresa); // Debug
+        if (empleadosViewController != null) {
+            empleadosViewController.recibirDatosEmpresa(idEmpresa);
+        } else {
+            System.out.println("Error: No puedo pasar el ID a empleados porque el controlador es null");
         }
     }
 

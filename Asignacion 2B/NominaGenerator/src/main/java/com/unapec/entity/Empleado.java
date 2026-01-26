@@ -7,6 +7,7 @@ public class Empleado {
     private String cuentaBancaria;
     private String tipoDeCuenta;
     private double salario;
+    private Long empresaId;
 
     public Empleado(){}
 
@@ -16,6 +17,15 @@ public class Empleado {
         this.cuentaBancaria = cuentaBancaria;
         this.tipoDeCuenta = tipoDeCuenta;
         this.salario = salario;
+    }
+
+    public Empleado(Long id, String cedula, String cuentaBancaria, String tipoDeCuenta, double salario, Long empresaId) {
+        this.id = id;
+        this.cedula = cedula;
+        this.cuentaBancaria = cuentaBancaria;
+        this.tipoDeCuenta = tipoDeCuenta;
+        this.salario = salario;
+        this.empresaId = empresaId;
     }
 
     public double getSalario() {
@@ -56,5 +66,13 @@ public class Empleado {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getEmpresaId() {
+        return empresaId;
+    }
+
+    public void setEmpresaId(Long empresaId) {
+        this.empresaId = empresaId;
     }
 }
