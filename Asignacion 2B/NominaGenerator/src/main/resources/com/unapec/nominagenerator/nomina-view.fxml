@@ -4,15 +4,11 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="466.0" prefWidth="620.0"
-            xmlns="http://javafx.com/javafx/21"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.unapec.nominagenerator.NominaController">
+<AnchorPane prefHeight="466.0" prefWidth="620.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.unapec.nominagenerator.NominaController">
     <children>
         <Label layoutX="14.0" layoutY="54.0" text="Nómina Correspondiente">
             <font>
@@ -39,14 +35,12 @@
 
         <Separator layoutX="158.0" layoutY="325.0" prefHeight="15.0" prefWidth="440.0" />
 
-        <Button fx:id="btnSeleccionaRuta" layoutX="14.0" layoutY="355.0" prefWidth="180.0" prefHeight="28.0"
-                mnemonicParsing="false" text="Seleccionar Ruta de Archivo" />
+        <Button fx:id="btnSeleccionaRuta" layoutX="14.0" layoutY="355.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="180.0" text="Seleccionar Ruta de Archivo" />
 
-        <Button fx:id="btnExportarNomina" layoutX="210.0" layoutY="355.0" prefWidth="180.0" prefHeight="28.0"
-                mnemonicParsing="false" text="Exportar Nómina en txt" />
+        <Button fx:id="btnExportarNomina" layoutX="210.0" layoutY="355.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="180.0" text="Exportar Nómina en txt" />
 
         <Label fx:id="lbNombreTab" layoutX="16.0" layoutY="14.0" prefHeight="17.0" prefWidth="102.0" text="Sr. a " visible="false" />
-        <Label fx:id="lbTabUsuarioDeseo" layoutX="118.0" layoutY="14.0" text="¿Qué desea hacer?" textFill="#ababab" visible="false">
+        <Label fx:id="lbTabUsuarioDeseo" layoutX="97.0" layoutY="14.0" text="¿Qué desea hacer?" textFill="#ababab" visible="false">
             <font>
                 <Font name="System Italic" size="12.0" />
             </font>
