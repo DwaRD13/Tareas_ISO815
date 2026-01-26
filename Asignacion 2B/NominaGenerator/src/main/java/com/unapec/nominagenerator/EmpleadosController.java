@@ -16,50 +16,35 @@ import javafx.scene.control.ComboBox;
 
 public class EmpleadosController {
 
-    @FXML
-    private Button btnConsultar;
+    @FXML private Button btnConsultar;
 
-    @FXML
-    private Button btnRegistrarCuenta;
+    @FXML private Button btnRegistrarCuenta;
 
-    @FXML
-    private ComboBox<?> cbTipoDeCuenta;
+    @FXML private ComboBox<?> cbTipoDeCuenta;
 
-    @FXML
-    private Label lbNoDeCuenta;
+    @FXML private Label lbNoDeCuenta;
 
-    @FXML
-    private Label lbNombreTab;
+    @FXML private Label lbNombreTab;
 
-    @FXML
-    private Label lbRCedula;
+    @FXML private Label lbRCedula;
 
-    @FXML
-    private Label lbRNCconsultar;
+    @FXML private Label lbRNCconsultar;
 
-    @FXML
-    private Label lbSalario;
+    @FXML private Label lbSalario;
 
-    @FXML
-    private Label lbTabUsuarioDeseo;
+    @FXML private Label lbTabUsuarioDeseo;
 
-    @FXML
-    private Label lbTipoDeCuenta;
+    @FXML private Label lbTipoDeCuenta;
 
-    @FXML
-    private ListView<String> lsVwDatosEmpleadoConsultado;
+    @FXML private ListView<String> lsVwDatosEmpleadoConsultado;
 
-    @FXML
-    private TextField txtCedulaEmpleado;
+    @FXML private TextField txtCedulaEmpleado;
 
-    @FXML
-    private TextField txtConsultaCedula;
+    @FXML private TextField txtConsultaCedula;
 
-    @FXML
-    private TextField txtNoCuenta;
+    @FXML private TextField txtNoCuenta;
 
-    @FXML
-    private TextField txtSalario;
+    @FXML private TextField txtSalario;
 
     private Long empresaConsultadaId;
 
@@ -74,7 +59,7 @@ public class EmpleadosController {
         Empleado empleado = new Empleado();
         empleado.setCedula(txtCedulaEmpleado.getText());
         empleado.setSalario(Double.parseDouble(txtSalario.getText()));
-        empleado.setTipoDeCuenta(cbTipoDeCuenta.getValue().toString());
+        empleado.setTipoDeCuenta(cbTipoDeCuenta.getValue().toString().substring(0,1));
         empleado.setCuentaBancaria(txtNoCuenta.getText());
 
         EmpleadoRepository repo = new EmpleadoRepository();

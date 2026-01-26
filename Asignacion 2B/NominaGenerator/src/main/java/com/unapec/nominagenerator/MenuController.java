@@ -1,39 +1,34 @@
 package com.unapec.nominagenerator;
 
+import com.unapec.entity.Empleado;
+import com.unapec.entity.Empresa;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
 
+import java.util.List;
+
 public class MenuController {
 
-    @FXML
-    private Button btnEnvioNombre;
+    @FXML private Button btnEnvioNombre;
 
-    @FXML
-    private Label lbInputName;
+    @FXML private Label lbInputName;
 
-    @FXML
-    private Label lbMensajeBienvenida;
+    @FXML private Label lbMensajeBienvenida;
 
-    @FXML
-    private Label lbMensajeDeNombre;
+    @FXML private Label lbMensajeDeNombre;
 
-    @FXML
-    private Label lbSaludos;
+    @FXML private Label lbSaludos;
 
-    @FXML
-    private TextField textFieldNombre;
+    @FXML private TextField textFieldNombre;
 
-    @FXML
-    private EmpresasController empresasViewController;
+    @FXML private EmpresasController empresasViewController;
 
-    @FXML
-    private NominaController nominaViewController;
+    @FXML private NominaController nominaViewController;
 
-    @FXML
-    private EmpleadosController empleadosViewController;
+    @FXML private EmpleadosController empleadosViewController;
 
     @FXML
     public void initialize() {
@@ -77,6 +72,14 @@ public class MenuController {
             empleadosViewController.recibirDatosEmpresa(idEmpresa);
         } else {
             System.out.println("Error: No puedo pasar el ID a empleados porque el controlador es null");
+        }
+    }
+
+    public void enviarDatosANomina(Empresa empresa, List<Empleado> listaEmpleados) {
+        if (nominaViewController != null) {
+            nominaViewController.cargarDatosNomina(empresa, listaEmpleados);
+        } else {
+            System.out.println("Error: Controlador de Nómina no iniciado.");
         }
     }
 
