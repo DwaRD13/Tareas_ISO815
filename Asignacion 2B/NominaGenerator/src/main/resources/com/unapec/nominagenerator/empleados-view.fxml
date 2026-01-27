@@ -25,21 +25,21 @@
                 <Font size="16.0" />
             </font>
         </Label>
-        <TextField fx:id="txtCedulaEmpleado" layoutX="75.0" layoutY="102.0" prefHeight="25.0" prefWidth="157.0" />
+        <TextField fx:id="txtCedulaEmpleado" layoutX="75.0" layoutY="102.0" prefHeight="25.0" prefWidth="157.0" promptText="Solo números (11 dígitos)" />
 
         <Label fx:id="lbSalario" layoutX="15.0" layoutY="142.0" text="Salario">
             <font>
                 <Font size="16.0" />
             </font>
         </Label>
-        <TextField fx:id="txtSalario" layoutX="74.0" layoutY="142.0" prefHeight="25.0" prefWidth="157.0" style="-fx-background-radius: 6;" />
+        <TextField fx:id="txtSalario" layoutX="74.0" layoutY="142.0" prefHeight="25.0" prefWidth="157.0" style="-fx-background-radius: 6;" promptText="Ej: 25000.00" />
 
         <Label fx:id="lbTipoDeCuenta" layoutX="286.0" layoutY="102.0" text="Tipo de Cuenta">
             <font>
                 <Font size="16.0" />
             </font>
         </Label>
-        <ComboBox fx:id="cbTipoDeCuenta" layoutX="407.0" layoutY="102.0" prefWidth="150.0" promptText="Tipo de Cuenta">
+        <ComboBox fx:id="cbTipoDeCuenta" layoutX="407.0" layoutY="102.0" prefWidth="150.0" promptText="Seleccione...">
             <items>
                 <FXCollections fx:factory="observableArrayList">
                     <String fx:value="Nominal" />
@@ -54,7 +54,7 @@
                 <Font size="16.0" />
             </font>
         </Label>
-        <TextField fx:id="txtNoCuenta" layoutX="413.0" layoutY="142.0" prefHeight="25.0" prefWidth="166.0" style="-fx-background-radius: 6;" />
+        <TextField fx:id="txtNoCuenta" layoutX="413.0" layoutY="142.0" prefHeight="25.0" prefWidth="166.0" style="-fx-background-radius: 6;" promptText="Solo números" />
 
         <Button fx:id="btnRegistrarCuenta" layoutX="458.0" layoutY="186.0" mnemonicParsing="false" onAction="#registrarEmpleado" prefHeight="25.0" prefWidth="121.0" text="Registrar Empleado" />
 
@@ -70,10 +70,10 @@
                 <Font size="16.0" />
             </font>
         </Label>
-        <TextField fx:id="txtConsultaCedula" layoutX="71.0" layoutY="267.0" prefHeight="25.0" prefWidth="171.0" style="-fx-background-radius: 10;" />
+        <TextField fx:id="txtConsultaCedula" layoutX="71.0" layoutY="267.0" prefHeight="25.0" prefWidth="171.0" style="-fx-background-radius: 10;" promptText="Ingrese cédula a buscar" />
         <Button fx:id="btnConsultar" layoutX="253.0" layoutY="267.0" mnemonicParsing="false" onAction="#consultarEmpleado" text="Consultar" />
 
-        <ListView fx:id="lsVwDatosEmpleadoConsultado" layoutX="347.0" layoutY="246.0" prefHeight="350.0" prefWidth="400.0" />
+        <ListView fx:id="lsVwDatosEmpleadoConsultado" layoutX="14.0" layoutY="310.0" prefHeight="326.0" prefWidth="772.0" style="-fx-font-family: 'Monospaced'; -fx-font-size: 13;" />
 
         <Label fx:id="lbNombreTab" layoutX="16.0" layoutY="14.0" prefHeight="17.0" prefWidth="102.0" text="Sr. a " visible="false" />
         <Label fx:id="lbTabUsuarioDeseo" layoutX="108.0" layoutY="14.0" text="¿Qué desea hacer?" textFill="#ababab" visible="false">

@@ -30,10 +30,15 @@ public class MenuController {
 
     @FXML private EmpleadosController empleadosViewController;
 
+
     @FXML
     public void initialize() {
         if (empresasViewController != null) {
             empresasViewController.setMainController(this);
+        }
+
+        if (empleadosViewController != null) {
+            empleadosViewController.setMainController(this);
         }
     }
 
@@ -80,6 +85,14 @@ public class MenuController {
             nominaViewController.cargarDatosNomina(empresa, listaEmpleados);
         } else {
             System.out.println("Error: Controlador de Nómina no iniciado.");
+        }
+    }
+
+    public void notificarCambioEnEmpleados(Long idEmpresa) {
+        System.out.println("Actualizando datos para empresa ID: " + idEmpresa);
+
+        if (empresasViewController != null) {
+            empresasViewController.refrescarDatosPorId(idEmpresa);
         }
     }
 

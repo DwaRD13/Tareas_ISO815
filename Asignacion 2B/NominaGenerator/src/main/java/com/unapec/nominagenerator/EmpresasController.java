@@ -83,7 +83,6 @@ public class EmpresasController {
     }
 
     private void setupValidators() {
-        // Validador para RNC (solo números, 9 dígitos)
         txtRNC.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
                 txtRNC.setText(newValue.replaceAll("[^\\d]", ""));
@@ -93,7 +92,6 @@ public class EmpresasController {
             }
         });
 
-        // Validador para RNC de consulta
         txtConsultaRNC.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
                 txtConsultaRNC.setText(newValue.replaceAll("[^\\d]", ""));
@@ -150,7 +148,6 @@ public class EmpresasController {
             txtNoCuenta.setStyle("");
         }
 
-        // Validar forma de pago
         if (cbFormaDePago.getValue() == null || cbFormaDePago.getValue().isEmpty()) {
             errores.append("• Debe seleccionar una forma de pago.\n");
             cbFormaDePago.setStyle("-fx-border-color: red; -fx-border-width: 1px;");
@@ -158,7 +155,6 @@ public class EmpresasController {
             cbFormaDePago.setStyle("");
         }
 
-        // Mostrar errores si los hay
         if (errores.length() > 0) {
             lbErrorRegistro.setText(errores.toString());
             lbErrorRegistro.setVisible(true);
@@ -226,6 +222,31 @@ public class EmpresasController {
         }
     }
 
+    public void refrescarDatosPorId(Long idEmpresa) {
+        if (idEmpresa == null) return;
+
+        try {
+            EmpresaRepository repository = new EmpresaRepository();
+            EmpleadoRepository empleadoRepository = new EmpleadoRepository();
+
+            Empresa empresaActualizada = repository.buscarEmpresaPorID(idEmpresa);
+
+            if (empresaActualizada != null) {
+                List<Empleado> listaEmpleadosNueva = empleadoRepository.listaEmpleado(idEmpresa);
+
+                mostrarInformacionEmpresa(empresaActualizada, listaEmpleadosNueva);
+                if (mainController != null) {
+                    mainController.enviarDatosANomina(empresaActualizada, listaEmpleadosNueva);
+                }
+
+                System.out.println("Vista de Empresa y Nómina actualizada correctamente.");
+            }
+        } catch (Exception e) {
+            System.err.println("Error al auto-actualizar empresa: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     private void limpiarCamposRegistro() {
         txtNombreEmpresa.clear();
         txtRNC.clear();
@@ -247,7 +268,6 @@ public class EmpresasController {
 
         if (rncConsulta.isEmpty()) {
             lbErrorConsulta.setText("• Por favor ingrese un RNC para consultar.");
-            lbErrorConsulta.setVisible(true);
             txtConsultaRNC.setStyle("-fx-border-color: red; -fx-border-width: 1px;");
             return;
         }
@@ -302,20 +322,6 @@ public class EmpresasController {
     }
 
     private void mostrarInformacionEmpresa(Empresa empresa, List<Empleado> empleados) {
-        // Mostrar información básica
-        lbNombreEmpresa.setVisible(true);
-        lbNombreEmpresa.setText("Nombre: " + empresa.getNombre());
-
-        lbCuentaBancaria.setVisible(true);
-        lbCuentaBancaria.setText("Cuenta: " + empresa.getCuentaBancaria());
-
-        lbFormaPago.setVisible(true);
-        lbFormaPago.setText("Forma de Pago: " + empresa.getFormaPago());
-
-        lbCantidadEmpleados.setVisible(true);
-        lbCantidadEmpleados.setText("Cantidad de Empleados: " + empleados.size());
-
-        // Generar reporte detallado
         StringBuilder sb = new StringBuilder();
 
         sb.append("=".repeat(50)).append("\n");
@@ -340,17 +346,21 @@ public class EmpresasController {
         } else {
             double totalSalarios = 0;
 
-            sb.append(String.format("%-4s %-12s %-20s %-15s\n",
-                    "No.", "Cédula", "Cuenta Bancaria", "Salario"));
-            sb.append("-".repeat(55)).append("\n");
+            String formatoCabecera = "%-5s %-16s %-22s %15s\n";
+            String formatoFila     = "%-5d %-16s %-22s RD$ %11s\n";
 
+            sb.append(String.format(formatoCabecera, "No.", "Cédula", "Cuenta Bancaria", "Salario"));
+            sb.append("-".repeat(65)).append("\n");
             int i = 1;
             for (Empleado emp : empleados) {
-                sb.append(String.format("%-4d %-12d %-20s RD$ %-12s\n",
+                String salarioStr = String.format("%,.2f", emp.getSalario());
+
+                sb.append(String.format(formatoFila,
                         i,
-                        emp.getCedula(),
+                        safe(emp.getCedula()),
                         safe(emp.getCuentaBancaria()),
-                        String.format("%,.2f", emp.getSalario())));
+                        salarioStr));
+
                 totalSalarios += emp.getSalario();
                 i++;
             }
@@ -360,7 +370,6 @@ public class EmpresasController {
             sb.append("-".repeat(40)).append("\n");
             sb.append(String.format("Total en nómina mensual: RD$ %,.2f\n", totalSalarios));
 
-            // Calcular proyecciones según forma de pago
             String formaPago = empresa.getFormaPago().toLowerCase();
             switch (formaPago) {
                 case "quincenal":
