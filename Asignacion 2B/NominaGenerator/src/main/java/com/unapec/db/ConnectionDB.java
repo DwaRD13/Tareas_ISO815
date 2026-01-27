@@ -7,8 +7,8 @@ import java.sql.SQLException;
 public class ConnectionDB {
 
     private static final String URL = "jdbc:mysql://localhost:3306/NOMINA?useSSL=false&serverTimezone=UTC";
-    private static final String USER = "dward";
-    private static final String PASS = "DuM#12345@";
+    private static final String USER = "root";
+    private static final String PASS = "Benja0.o";
 
     static {
         try {
