@@ -21,6 +21,8 @@ def main(page: ft.Page):
     page.bgcolor = "#f8f9fa"
     
     datos_en_memoria = []
+    empresa_id_actual = None
+    archivo_origen_actual = None
 
     def cargar_archivo(e):
         root = Tk()
@@ -41,6 +43,8 @@ def main(page: ft.Page):
     
     def cargar_desde_ruta(ruta):
         """Carga los datos desde un archivo de nómina"""
+        nonlocal empresa_id_actual, archivo_origen_actual
+        
         if not ruta:
             mostrar_mensaje("Por favor selecciona un archivo", "orange")
             return
@@ -50,7 +54,11 @@ def main(page: ft.Page):
             tabla_datos.rows.clear()
             
             # Usar el FileHandler para leer el archivo
-            datos = FileHandler.leer_archivo_nomina(ruta)
+            datos, empresa_id, nombre_archivo = FileHandler.leer_archivo_nomina(ruta)
+            
+            # Guardar metadatos
+            empresa_id_actual = empresa_id
+            archivo_origen_actual = nombre_archivo
             
             for fila in datos:
                 datos_en_memoria.append(fila)
@@ -115,8 +123,9 @@ def main(page: ft.Page):
                 registros_fallidos += 1
 
             try:
-                # Usar DatabaseManager para insertar
-                db_manager.insertar_pago(cedula, nombre, cuenta, monto_final, estado)
+                # Usar DatabaseManager para insertar con metadatos
+                db_manager.insertar_pago(cedula, nombre, cuenta, monto_final, estado, 
+                                       archivo_origen=archivo_origen_actual, empresa_id=empresa_id_actual)
             except Exception as ex:
                 print(f"Error Supabase: {ex}")
                 mostrar_mensaje("Error de conexión con Supabase", "red")

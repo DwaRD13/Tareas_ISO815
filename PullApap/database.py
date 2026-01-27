@@ -18,7 +18,7 @@ class DatabaseManager:
             print(f"Error de configuración: {e}")
             raise
     
-    def insertar_pago(self, cedula, nombre, cuenta_destino, monto, estado):
+    def insertar_pago(self, cedula, nombre, cuenta_destino, monto, estado, archivo_origen=None, empresa_id=None):
         """
         Inserta un registro de pago en la base de datos
         
@@ -28,6 +28,8 @@ class DatabaseManager:
             cuenta_destino: Número de cuenta bancaria
             monto: Monto del pago
             estado: Estado del pago (APLICADO, ERROR_DATOS, etc.)
+            archivo_origen: Nombre del archivo de nómina (opcional)
+            empresa_id: ID de la empresa del encabezado (opcional)
         
         Returns:
             Response de Supabase
@@ -42,5 +44,11 @@ class DatabaseManager:
             "monto": monto,
             "estado": estado
         }
+        
+        if archivo_origen:
+            datos_json["archivo_origen"] = archivo_origen
+        
+        if empresa_id:
+            datos_json["empresa_id"] = empresa_id
         
         return self.supabase.table("pagos_recibidos").insert(datos_json).execute()
