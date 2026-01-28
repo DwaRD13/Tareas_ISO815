@@ -26,6 +26,7 @@
             </font>
         </Label>
         <TextField fx:id="txtCedulaEmpleado" layoutX="75.0" layoutY="102.0" prefHeight="25.0" prefWidth="157.0" promptText="Solo números (11 dígitos)" />
+        <Label fx:id="lbErrorCedula" layoutX="75.0" layoutY="130.0" textFill="RED" visible="false" />
 
         <Label fx:id="lbSalario" layoutX="15.0" layoutY="142.0" text="Salario">
             <font>
@@ -33,6 +34,7 @@
             </font>
         </Label>
         <TextField fx:id="txtSalario" layoutX="74.0" layoutY="142.0" prefHeight="25.0" prefWidth="157.0" style="-fx-background-radius: 6;" promptText="Ej: 25000.00" />
+        <Label fx:id="lbErrorSalario" layoutX="74.0" layoutY="170.0" textFill="RED" visible="false" />
 
         <Label fx:id="lbTipoDeCuenta" layoutX="286.0" layoutY="102.0" text="Tipo de Cuenta">
             <font>
@@ -55,6 +57,7 @@
             </font>
         </Label>
         <TextField fx:id="txtNoCuenta" layoutX="413.0" layoutY="142.0" prefHeight="25.0" prefWidth="166.0" style="-fx-background-radius: 6;" promptText="Solo números" />
+        <Label fx:id="lbErrorCuenta" layoutX="413.0" layoutY="170.0" textFill="RED" visible="false" />
 
         <Button fx:id="btnRegistrarCuenta" layoutX="458.0" layoutY="186.0" mnemonicParsing="false" onAction="#registrarEmpleado" prefHeight="25.0" prefWidth="121.0" text="Registrar Empleado" />
 

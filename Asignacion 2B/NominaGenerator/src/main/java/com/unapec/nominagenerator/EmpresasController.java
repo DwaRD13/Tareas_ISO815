@@ -4,6 +4,7 @@ import com.unapec.db.EmpleadoRepository;
 import com.unapec.db.EmpresaRepository;
 import com.unapec.entity.Empleado;
 import com.unapec.entity.Empresa;
+import com.unapec.util.Validaciones;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -132,6 +133,9 @@ public class EmpresasController {
             txtRNC.setStyle("-fx-border-color: red; -fx-border-width: 1px;");
         } else if (!RNC_PATTERN.matcher(txtRNC.getText().trim()).matches()) {
             errores.append("• El RNC debe tener exactamente 9 dígitos.\n");
+            txtRNC.setStyle("-fx-border-color: red; -fx-border-width: 1px;");
+        } else if (!Validaciones.esRNCValido(txtRNC.getText().trim())) {
+            errores.append("• El RNC ingresado no es válido.\n");
             txtRNC.setStyle("-fx-border-color: red; -fx-border-width: 1px;");
         } else {
             txtRNC.setStyle("");
@@ -274,6 +278,11 @@ public class EmpresasController {
 
         if (!RNC_PATTERN.matcher(rncConsulta).matches()) {
             lbErrorConsulta.setText("• El RNC debe tener exactamente 9 dígitos.");
+            lbErrorConsulta.setVisible(true);
+            txtConsultaRNC.setStyle("-fx-border-color: red; -fx-border-width: 1px;");
+            return;
+        } else if (!Validaciones.esRNCValido(rncConsulta)) {
+            lbErrorConsulta.setText("• El RNC ingresado no es válido.");
             lbErrorConsulta.setVisible(true);
             txtConsultaRNC.setStyle("-fx-border-color: red; -fx-border-width: 1px;");
             return;
