@@ -37,6 +37,16 @@ class DatabaseManager:
         Raises:
             Exception: Si hay error en la inserción
         """
+        def _truncate(value, max_len):
+            if value is None:
+                return None
+            texto = str(value)
+            return texto[:max_len]
+
+        # Ajustar longitudes para columnas varchar(20)
+        cuenta_destino = _truncate(cuenta_destino, 20)
+        empresa_id = _truncate(empresa_id, 20)
+
         datos_json = {
             "cedula": cedula,
             "nombre": nombre,

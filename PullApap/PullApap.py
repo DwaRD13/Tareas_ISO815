@@ -31,7 +31,7 @@ def main(page: ft.Page):
         
         ruta = filedialog.askopenfilename(
             title="Seleccionar archivo de nómina",
-            filetypes=[("Archivos de texto", "*.txt"), ("Todos los archivos", "*.*")]
+            filetypes=[("Archivos JSON", "*.json"), ("Todos los archivos", "*.*")]
         )
         
         root.destroy()
@@ -233,7 +233,7 @@ def main(page: ft.Page):
                 ft.Text("Cargar Datos", size=18, weight="bold", color="#212121"),
                 badge_registros,
             ]),
-            ft.Text("Haz clic en el botón para seleccionar tu archivo TXT de nómina", 
+                 ft.Text("Haz clic en el botón para seleccionar tu archivo JSON de nómina", 
                    size=13, color="#666"),
             ft.Divider(height=20, color="transparent"),
             input_ruta,
