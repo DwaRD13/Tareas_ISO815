@@ -204,7 +204,7 @@ public class EmpresasController {
                                 "Cuenta: " + nuevaEmpresa.getCuentaBancaria() + "\n" +
                                 "Forma de Pago: " + nuevaEmpresa.getFormaPago(),
                         Alert.AlertType.INFORMATION);
-
+                consultarEmpresa(event);
                 limpiarCamposRegistro();
 
             } else {
