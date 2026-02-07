@@ -1,49 +1,19 @@
 {
-  "encabezado": {
-    "empresa_id": "OM12345678901234567891",
-    "fecha_inicio": "06/01/2026",
-    "fecha_fin": "26/01/2026"
+  "metadata": {
+    "transacion_id": "CRE-202602-992486",
+    "timestamp": "2026-02-06T01:23:12.487047400Z",
+    "sistema_origen": "FUNDAPEC"
   },
-  "detalles": [
-    {
-      "cedula": "40215617495",
-      "cuenta": "00000000001231445343",
-      "monto": 23522.50,
-      "nombre": ""
-    },
-    {
-      "cedula": "00112345678",
-      "cuenta": "00000000001231445344",
-      "monto": 18000.00,
-      "nombre": "Ana Perez"
-    },
-    {
-      "cedula": "00223456789",
-      "cuenta": "00000000001231445345",
-      "monto": 19550.75,
-      "nombre": "Luis Gomez"
-    },
-    {
-      "cedula": "00334567890",
-      "cuenta": "00000000001231445346",
-      "monto": 21000.00,
-      "nombre": "Maria Rodriguez"
-    },
-    {
-      "cedula": "00445678901",
-      "cuenta": "00000000001231445347",
-      "monto": 17500.25,
-      "nombre": "Carlos Diaz"
-    },
-    {
-      "cedula": "00556789012",
-      "cuenta": "00000000001231445348",
-      "monto": 26000.00,
-      "nombre": "Sofia Martinez"
-    }
-  ],
-  "sumatoria": {
-    "cantidad": 1,
-    "total": 23522.50
+  "estudiante": {
+    "matricula": "A00114905",
+    "estado": "Activo",
+    "periodo_academico": "2026-C1",
+    "descripcion_periodo": "Ene-Abr 2026"
+  },
+  "detalle_pago": {
+    "codigo_pago": "FUNDAPEC-CR-00001",
+    "monto_aprobado": 56000.0,
+    "moneda": "DOP",
+    "fecha_aprobacion": "2026-02-05"
   }
 }

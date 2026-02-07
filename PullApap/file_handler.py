@@ -12,9 +12,30 @@ class FileHandler:
     @staticmethod
     def leer_archivo_nomina(ruta):
         """
-        Lee un archivo de nómina en formato JSON y retorna los datos en formato lista
+        Lee un archivo de nómina/crédito en formato JSON y retorna los datos en formato lista
 
-        Formato JSON esperado:
+        Nuevo formato JSON esperado (créditos estudiantiles):
+        {
+            "metadata": {
+                "transacion_id": "...",
+                "timestamp": "...",
+                "sistema_origen": "FUNDAPEC"
+            },
+            "estudiante": {
+                "matricula": "...",
+                "estado": "...",
+                "periodo_academico": "...",
+                "descripcion_periodo": "..."
+            },
+            "detalle_pago": {
+                "codigo_pago": "...",
+                "monto_aprobado": 0.0,
+                "moneda": "DOP",
+                "fecha_aprobacion": "..."
+            }
+        }
+
+        Formato anterior (nómina):
         {
             "encabezado": {
                 "empresa_id": "...",
@@ -28,11 +49,7 @@ class FileHandler:
                     "monto": 0,
                     "nombre": "..."
                 }
-            ],
-            "sumatoria": {
-                "cantidad": 0,
-                "total": 0
-            }
+            ]
         }
 
         Args:
@@ -41,7 +58,7 @@ class FileHandler:
         Returns:
             Tupla (datos, empresa_id, nombre_archivo) donde:
             - datos: Lista de listas con [cedula, nombre, cuenta, monto]
-            - empresa_id: ID de la empresa del encabezado
+            - empresa_id: ID de la empresa/sistema origen
             - nombre_archivo: Nombre del archivo procesado
 
         Raises:
@@ -61,29 +78,66 @@ class FileHandler:
         with open(ruta, "r", encoding="utf-8") as f:
             contenido = json.load(f)
 
-        encabezado = contenido.get("encabezado", {}) if isinstance(contenido, dict) else {}
-        empresa_id = encabezado.get("empresa_id")
+        # Detectar el formato del JSON
+        if "metadata" in contenido and "estudiante" in contenido and "detalle_pago" in contenido:
+            # Nuevo formato: créditos estudiantiles
+            metadata = contenido.get("metadata", {})
+            estudiante = contenido.get("estudiante", {})
+            detalle_pago = contenido.get("detalle_pago", {})
+            
+            # Extraer empresa_id del sistema origen
+            empresa_id = metadata.get("sistema_origen", "DESCONOCIDO")
+            
+            # Mapear campos del nuevo formato
+            matricula = str(estudiante.get("matricula", "")).strip()
+            estado = str(estudiante.get("estado", "")).strip()
+            periodo = str(estudiante.get("descripcion_periodo", "")).strip()
+            
+            codigo_pago = str(detalle_pago.get("codigo_pago", "")).strip()
+            monto_aprobado = detalle_pago.get("monto_aprobado", 0)
+            fecha_aprobacion = str(detalle_pago.get("fecha_aprobacion", "")).strip()
+            
+            # Construir nombre descriptivo
+            nombre = f"Est. {matricula}"
+            if periodo:
+                nombre += f" - {periodo}"
+            
+            # Usar matrícula como identificador (sin formatear como cédula)
+            cedula = matricula
+            
+            # Usar código de pago como cuenta
+            cuenta = codigo_pago if codigo_pago else matricula
+            
+            monto_decimal = float(monto_aprobado) if monto_aprobado is not None else 0.0
+            
+            if cedula and cuenta and monto_decimal > 0:
+                datos.append([cedula, nombre, cuenta, str(monto_decimal)])
+        
+        else:
+            # Formato anterior: nómina tradicional
+            encabezado = contenido.get("encabezado", {}) if isinstance(contenido, dict) else {}
+            empresa_id = encabezado.get("empresa_id")
 
-        detalles = contenido.get("detalles", []) if isinstance(contenido, dict) else []
-        for item in detalles:
-            try:
-                cedula = str(item.get("cedula", "")).strip()
-                cuenta = str(item.get("cuenta", "")).strip()
-                nombre = str(item.get("nombre", "")).strip()
-                monto_valor = item.get("monto", 0)
+            detalles = contenido.get("detalles", []) if isinstance(contenido, dict) else []
+            for item in detalles:
+                try:
+                    cedula = str(item.get("cedula", "")).strip()
+                    cuenta = str(item.get("cuenta", "")).strip()
+                    nombre = str(item.get("nombre", "")).strip()
+                    monto_valor = item.get("monto", 0)
 
-                if not nombre:
-                    nombre = "SIN NOMBRE"
+                    if not nombre:
+                        nombre = "SIN NOMBRE"
 
-                cedula = FileHandler.formatear_cedula(cedula)
+                    cedula = FileHandler.formatear_cedula(cedula)
 
-                monto_decimal = float(monto_valor) if monto_valor is not None else 0.0
+                    monto_decimal = float(monto_valor) if monto_valor is not None else 0.0
 
-                if cedula and cuenta and monto_decimal > 0:
-                    datos.append([cedula, nombre, cuenta, str(monto_decimal)])
-            except Exception as e:
-                print(f"Error procesando detalle JSON: {e}")
-                continue
+                    if cedula and cuenta and monto_decimal > 0:
+                        datos.append([cedula, nombre, cuenta, str(monto_decimal)])
+                except Exception as e:
+                    print(f"Error procesando detalle JSON: {e}")
+                    continue
 
         return datos, empresa_id, nombre_archivo
     

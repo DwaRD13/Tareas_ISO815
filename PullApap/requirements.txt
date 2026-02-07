@@ -1,0 +1,13 @@
+# Dependencias del proyecto PullApap - Sistema de Nómina Banco APAP
+
+# Framework para interfaz de usuario
+flet>=0.24.0
+
+# Cliente de Supabase para base de datos
+supabase>=2.9.0
+
+# Nota: tkinter viene incluido con Python en la mayoría de instalaciones
+# Si tkinter no está disponible, instalar según el sistema operativo:
+# - Linux: sudo apt-get install python3-tk
+# - macOS: viene preinstalado con Python
+# - Windows: viene preinstalado con Python

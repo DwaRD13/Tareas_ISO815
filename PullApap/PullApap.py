@@ -255,7 +255,7 @@ def main(page: ft.Page):
             ft.DataColumn(ft.Text("Monto", weight="bold", size=14)),
         ],
         rows=[],
-        border=ft.Border.all(1, "#e0e0e0"),
+        border=ft.border.all(1, "#e0e0e0"),
         heading_row_color="#f5f5f5",
         heading_row_height=50,
         data_row_min_height=45,
@@ -265,7 +265,7 @@ def main(page: ft.Page):
     contenedor_tabla = ft.Container(
         content=ft.Column([tabla_datos], scroll=ft.ScrollMode.AUTO),
         bgcolor="white",
-        border=ft.Border.all(1, "#e0e0e0"),
+        border=ft.border.all(1, "#e0e0e0"),
         border_radius=12,
         padding=20,
         height=350,
