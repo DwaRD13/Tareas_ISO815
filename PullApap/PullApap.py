@@ -54,14 +54,21 @@ def main(page: ft.Page):
             tabla_datos.rows.clear()
             
             # Usar el FileHandler para leer el archivo
-            datos, empresa_id, nombre_archivo = FileHandler.leer_archivo_nomina(ruta)
+            datos_db, datos_tabla, empresa_id, nombre_archivo, columnas = FileHandler.leer_archivo_nomina(ruta)
             
             # Guardar metadatos
             empresa_id_actual = empresa_id
             archivo_origen_actual = nombre_archivo
             
-            for fila in datos:
+            tabla_datos.columns = [
+                ft.DataColumn(ft.Text(columna, weight="bold", size=14))
+                for columna in columnas
+            ]
+
+            for fila in datos_db:
                 datos_en_memoria.append(fila)
+
+            for fila in datos_tabla:
                 tabla_datos.rows.append(
                     ft.DataRow(
                         cells=[
@@ -73,7 +80,7 @@ def main(page: ft.Page):
                     )
                 )
             
-            contador = len(datos)
+            contador = len(datos_db)
             if contador > 0:
                 badge_registros.value = str(contador)
                 badge_registros.visible = True

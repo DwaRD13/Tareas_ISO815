@@ -56,10 +56,12 @@ class FileHandler:
             ruta: Ruta del archivo a leer
 
         Returns:
-            Tupla (datos, empresa_id, nombre_archivo) donde:
-            - datos: Lista de listas con [cedula, nombre, cuenta, monto]
+            Tupla (datos_db, datos_tabla, empresa_id, nombre_archivo, columnas) donde:
+            - datos_db: Lista de listas con [cedula, nombre, cuenta, monto]
+            - datos_tabla: Lista de listas con columnas a mostrar en la tabla
             - empresa_id: ID de la empresa/sistema origen
             - nombre_archivo: Nombre del archivo procesado
+            - columnas: Lista de nombres de columnas para la tabla
 
         Raises:
             FileNotFoundError: Si el archivo no existe
@@ -71,9 +73,11 @@ class FileHandler:
         if not os.path.exists(ruta):
             raise FileNotFoundError("El archivo no existe")
         
-        datos = []
+        datos_db = []
+        datos_tabla = []
         empresa_id = None
         nombre_archivo = os.path.basename(ruta)
+        columnas = []
 
         with open(ruta, "r", encoding="utf-8") as f:
             contenido = json.load(f)
@@ -81,6 +85,7 @@ class FileHandler:
         # Detectar el formato del JSON
         if "metadata" in contenido and "estudiante" in contenido and "detalle_pago" in contenido:
             # Nuevo formato: créditos estudiantiles
+            columnas = ["Matricula", "Estado", "Periodo", "Monto aprobado"]
             metadata = contenido.get("metadata", {})
             estudiante = contenido.get("estudiante", {})
             detalle_pago = contenido.get("detalle_pago", {})
@@ -97,7 +102,7 @@ class FileHandler:
             monto_aprobado = detalle_pago.get("monto_aprobado", 0)
             fecha_aprobacion = str(detalle_pago.get("fecha_aprobacion", "")).strip()
             
-            # Construir nombre descriptivo
+            # Construir nombre descriptivo para persistencia
             nombre = f"Est. {matricula}"
             if periodo:
                 nombre += f" - {periodo}"
@@ -111,10 +116,12 @@ class FileHandler:
             monto_decimal = float(monto_aprobado) if monto_aprobado is not None else 0.0
             
             if cedula and cuenta and monto_decimal > 0:
-                datos.append([cedula, nombre, cuenta, str(monto_decimal)])
+                datos_db.append([cedula, nombre, cuenta, str(monto_decimal)])
+                datos_tabla.append([matricula, estado, periodo, str(monto_decimal)])
         
         else:
             # Formato anterior: nómina tradicional
+            columnas = ["Cedula", "Nombre", "Cuenta", "Monto"]
             encabezado = contenido.get("encabezado", {}) if isinstance(contenido, dict) else {}
             empresa_id = encabezado.get("empresa_id")
 
@@ -134,12 +141,13 @@ class FileHandler:
                     monto_decimal = float(monto_valor) if monto_valor is not None else 0.0
 
                     if cedula and cuenta and monto_decimal > 0:
-                        datos.append([cedula, nombre, cuenta, str(monto_decimal)])
+                        datos_db.append([cedula, nombre, cuenta, str(monto_decimal)])
+                        datos_tabla.append([cedula, nombre, cuenta, str(monto_decimal)])
                 except Exception as e:
                     print(f"Error procesando detalle JSON: {e}")
                     continue
 
-        return datos, empresa_id, nombre_archivo
+        return datos_db, datos_tabla, empresa_id, nombre_archivo, columnas
     
     @staticmethod
     def formatear_cedula(cedula):
