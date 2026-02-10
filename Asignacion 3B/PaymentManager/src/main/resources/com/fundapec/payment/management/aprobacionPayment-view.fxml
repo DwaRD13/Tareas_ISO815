@@ -69,6 +69,8 @@
 
             <Label text="Desc. Periodo:" GridPane.rowIndex="3" />
             <TextField fx:id="txtDescPeriodo" promptText="Ene-Abr 2026" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="lbErrorEstudiante" textFill="RED" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
         </children>
     </GridPane>
 
@@ -110,6 +112,7 @@
 
             <Label text="Fecha Aprobación:" GridPane.rowIndex="3" />
             <DatePicker fx:id="dpFechaAprobacion" prefWidth="220.0" promptText="dd/mm/yyyy" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="lbErrorPago" textFill="RED" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
         </children>
     </GridPane>
 
