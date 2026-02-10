@@ -57,9 +57,73 @@ public class RegistroPagoController {
     @FXML
     private TextField txtPeriodo;
 
+    @FXML private Label lbErrorEstudiante;
+    @FXML private Label lbErrorPago;
+
     private File directorioSeleccionado;
 
     private PagoRepository pagoRepository = new PagoRepository();
+
+    @FXML
+    public void initialize() {
+        setupValidators();
+
+        lbErrorEstudiante.setVisible(false);
+        lbErrorPago.setVisible(false);
+    }
+
+    private void setupValidators() {
+        txtMatricula.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (!newVal.matches("[a-zA-Z0-9]*")) {
+                txtMatricula.setText(newVal.replaceAll("[^a-zA-Z0-9]", ""));
+            }
+            if (txtMatricula.getText().length() > 9) {
+                txtMatricula.setText(oldVal);
+            }
+        });
+
+        txtEstado.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal.length() > 14) {
+                txtEstado.setText(oldVal);
+            }
+        });
+
+        txtPeriodo.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal.length() > 7) {
+                txtPeriodo.setText(oldVal);
+            }
+        });
+
+        txtDescPeriodo.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal.length() > 17) {
+                txtDescPeriodo.setText(oldVal);
+            }
+        });
+
+        txtCodigoPago.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal.length() > 20) {
+                txtCodigoPago.setText(oldVal);
+            }
+        });
+
+        txtMonto.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal.length() > 9) {
+                txtMonto.setText(oldVal);
+            }
+        });
+
+        txtMoneda.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal.length() > 3) {
+                txtMoneda.setText(oldVal);
+            }
+        });
+
+        dpFechaAprobacion.getEditor().textProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal.length() > 10) {
+                dpFechaAprobacion.getEditor().setText(oldVal);
+            }
+        });
+    }
 
     @FXML
     void generarArchivo(ActionEvent event) {
@@ -103,9 +167,59 @@ public class RegistroPagoController {
     @FXML
     void guardarRegistro(ActionEvent event) {
         try {
-            if (txtMatricula.getText().isEmpty() || txtMonto.getText().isEmpty()) {
-                mostrarAlerta(Alert.AlertType.WARNING, "Datos incompletos", "Debe llenar matrícula y monto.");
+            boolean valido = true;
+            StringBuilder erroresEstudiante = new StringBuilder();
+            StringBuilder erroresPago = new StringBuilder();
+
+            if (txtMatricula.getText().isEmpty()) {
+                erroresEstudiante.append("• La matrícula es obligatoria.\n");
+                valido = false;
+            }
+
+            if (!txtPeriodo.getText().matches("\\d{4}-C[123]")) {
+                erroresEstudiante.append("• Formato periodo: YYYY-C# (ej: 2026-C1).\n");
+                valido = false;
+            }
+
+            if (txtDescPeriodo.getText().length() > 17) {
+                erroresEstudiante.append("• La descripción no puede exceder 17 caracteres.\n");
+                valido = false;
+            }
+
+            if (!txtCodigoPago.getText().matches("FUNDAPEC-CR-\\d{1,6}")) {
+                erroresPago.append("• Formato código: FUNDAPEC-CR-#### (máx 6 dígitos).\n");
+                valido = false;
+            }
+
+            if (txtMonto.getText().isEmpty()) {
+                erroresPago.append("• El monto es obligatorio.\n");
+                valido = false;
+            } else {
+                try {
+                    Double.parseDouble(txtMonto.getText());
+                } catch (NumberFormatException e) {
+                    erroresPago.append("• El monto debe ser numérico.\n");
+                    valido = false;
+                }
+            }
+
+            String fechaTexto = dpFechaAprobacion.getEditor().getText();
+            if (!fechaTexto.matches("\\d{2}/\\d{2}/\\d{4}")) {
+                erroresPago.append("• Formato fecha: dd/mm/yyyy.\n");
+                valido = false;
+            }
+
+            lbErrorEstudiante.setText(erroresEstudiante.toString());
+            lbErrorEstudiante.setVisible(erroresEstudiante.length() > 0);
+
+            lbErrorPago.setText(erroresPago.toString());
+            lbErrorPago.setVisible(erroresPago.length() > 0);
+
+            if (!valido) {
+                mostrarAlerta(Alert.AlertType.ERROR, "Errores de validación",
+                        "Corrige los campos antes de continuar.");
                 return;
+
             }
 
             Estudiante est = new Estudiante(
@@ -116,7 +230,7 @@ public class RegistroPagoController {
             );
 
             LocalDate fecha = dpFechaAprobacion.getValue();
-            if(fecha == null) fecha = LocalDate.now();
+            if (fecha == null) fecha = LocalDate.now();
 
             DetallePago pago = new DetallePago(
                     txtCodigoPago.getText(),
@@ -130,8 +244,6 @@ public class RegistroPagoController {
 
             mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Pago registrado correctamente en BD.");
 
-        } catch (NumberFormatException e) {
-            mostrarAlerta(Alert.AlertType.ERROR, "Error Numérico", "El monto debe ser un número válido.");
         } catch (SQLException e) {
             if (e.getMessage().contains("Duplicate entry")) {
                 mostrarAlerta(Alert.AlertType.ERROR, "Error SQL", "El código de pago ya existe.");
@@ -141,6 +253,7 @@ public class RegistroPagoController {
             e.printStackTrace();
         } catch (Exception e) {
             mostrarAlerta(Alert.AlertType.ERROR, "Error", "Ocurrió un error inesperado: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
