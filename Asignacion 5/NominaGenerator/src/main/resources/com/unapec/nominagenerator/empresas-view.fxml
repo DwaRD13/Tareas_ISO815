@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="668.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.unapec.nominagenerator.EmpresasController">
+    <children>
+        <Label fx:id="lbNombreTab" layoutX="16.0" layoutY="14.0" prefHeight="17.0" prefWidth="102.0" text="Sr. a " visible="false" />
+        <Label fx:id="lbTabUsuarioDeseo" layoutX="108.0" layoutY="14.0" text="¿Qué desea hacer?" textFill="#ababab" visible="false">
+            <font>
+                <Font name="System Italic" size="12.0" />
+            </font>
+        </Label>
+        <Button fx:id="btnLimpiarCampos" layoutX="600.0" layoutY="31.0" mnemonicParsing="false" onAction="#limpiarCampos" prefHeight="28.0" prefWidth="150.0" text="Limpiar Campos" />
+
+        <Label layoutX="15.0" layoutY="54.0" text="Registra tu empresa">
+            <font>
+                <Font size="16.0" />
+            </font>
+        </Label>
+        <Separator layoutX="177.0" layoutY="59.0" prefHeight="15.0" prefWidth="580.0" />
+
+        <Label fx:id="lbRNombreEmpresa" layoutX="14.0" layoutY="91.0" text="Nombre">
+            <font>
+                <Font size="16.0" />
+            </font>
+        </Label>
+        <TextField fx:id="txtNombreEmpresa" layoutX="87.0" layoutY="91.0" prefWidth="174.0" />
+
+        <Label fx:id="lbNoDeCuenta" layoutX="273.0" layoutY="91.0" text="No. de Cuenta">
+            <font>
+                <Font size="16.0" />
+            </font>
+        </Label>
+        <TextField fx:id="txtNoCuenta" layoutX="383.0" layoutY="91.0" prefHeight="25.0" prefWidth="174.0" style="-fx-background-radius: 6;" />
+
+        <Label fx:id="lbRNCEmpresa" layoutX="14.0" layoutY="131.0" text="RNC">
+            <font>
+                <Font size="16.0" />
+            </font>
+        </Label>
+        <TextField fx:id="txtRNC" layoutX="62.0" layoutY="131.0" prefHeight="25.0" prefWidth="174.0" style="-fx-background-radius: 6;" />
+
+        <Label fx:id="lbFormaDePago" layoutX="273.0" layoutY="131.0" text="Forma de pago">
+            <font>
+                <Font size="16.0" />
+            </font>
+        </Label>
+        <ComboBox fx:id="cbFormaDePago" layoutX="389.0" layoutY="131.0" prefWidth="150.0" promptText="Forma de pago">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="Semanal" />
+                    <String fx:value="Quincenal" />
+                    <String fx:value="Mensual" />
+                </FXCollections>
+            </items>
+        </ComboBox>
+
+        <Button fx:id="btnRegistrarCuenta" layoutX="427.0" layoutY="179.0" mnemonicParsing="false" onAction="#registrarEmpresa" text="Registrar Empresa" />
+        <Label fx:id="lbErrorRegistro" layoutX="15.0" layoutY="180.0" prefWidth="350.0" textFill="RED" visible="false" />
+
+        <Separator layoutX="175.0" layoutY="209.0" prefHeight="15.0" prefWidth="580.0" />
+        <Label layoutX="15.0" layoutY="204.0" text="Acceder a tu empresa">
+            <font>
+                <Font size="16.0" />
+            </font>
+        </Label>
+
+        <Label fx:id="lbRNCconsultar" layoutX="16.0" layoutY="241.0" text="RNC">
+            <font>
+                <Font size="16.0" />
+            </font>
+        </Label>
+        <TextField fx:id="txtConsultaRNC" layoutX="54.0" layoutY="241.0" prefHeight="25.0" prefWidth="138.0" promptText="Ingrese RNC" style="-fx-background-radius: 10;" />
+        <Button fx:id="btnConsultar" layoutX="207.0" layoutY="241.0" mnemonicParsing="false" onAction="#consultarEmpresa" text="Acceder" />
+        <Label fx:id="lbErrorConsulta" layoutX="280.0" layoutY="245.0" prefWidth="300.0" textFill="RED" visible="false" />
+
+        <TextArea fx:id="txtAreaDetalles" editable="false" layoutX="14.0" layoutY="285.0" prefHeight="359.0" prefWidth="772.0" style="-fx-font-family: 'Monospaced'; -fx-font-size: 13px;" wrapText="false" />
+
+    </children>
+</AnchorPane>

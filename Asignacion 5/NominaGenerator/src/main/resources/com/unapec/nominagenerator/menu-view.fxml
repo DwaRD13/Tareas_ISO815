@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.unapec.nominagenerator.MenuController">
+    <children>
+        <TabPane layoutX="0.0" layoutY="0.0" prefHeight="650.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab text="Pagina Principal">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <Label fx:id="lbMensajeBienvenida" alignment="CENTER" layoutX="175.0" layoutY="160.0" prefHeight="71.0" prefWidth="451.0" text="Le presentamos esta interfaz para la generación de nomina por su empresa. Este tiene la misión de exportar un archivo para que sea recibida por el Banco APAP" textAlignment="CENTER" visible="false" wrapText="true">
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font></Label>
+                                <Label fx:id="lbInputName" layoutX="187.0" layoutY="84.0" prefHeight="20.0" prefWidth="132.0" text="Ingrese su nombre:">
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font></Label>
+                                <TextField fx:id="textFieldNombre" layoutX="325.0" layoutY="80.0" />
+                                <Button fx:id="btnEnvioNombre" layoutX="490.0" layoutY="80.0" mnemonicParsing="false" onAction="#guardarNombre" prefHeight="25.0" prefWidth="102.0" text="Enviar Nombre" />
+                                <Label fx:id="lbSaludos" alignment="CENTER" layoutX="249.0" layoutY="123.0" prefHeight="37.0" prefWidth="302.0" text="Saludos Sr(a) " textAlignment="CENTER" visible="false" wrapText="true">
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font></Label>
+                                <Label fx:id="lbMensajeDeNombre" alignment="CENTER" layoutX="186.0" layoutY="231.0" prefHeight="136.0" prefWidth="429.0" text="El uso de su nombre no interfiere en el desarrollo de los procesos." textAlignment="CENTER" textFill="#dd0606" visible="false" wrapText="true">
+                                    <font>
+                                        <Font name="System Bold" size="16.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab text="Empresa">
+                    <content>
+                        <fx:include fx:id="empresasView" source="empresas-view.fxml" />
+                    </content>
+                </Tab>
+                <Tab text="Empleados">
+                    <content>
+                        <fx:include fx:id="empleadosView" source="empleados-view.fxml" />
+                    </content>
+                </Tab>
+                <Tab text="Nomina">
+                    <content>
+                        <fx:include fx:id="nominaView" source="nomina-view.fxml" />
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </children>
+</AnchorPane>
