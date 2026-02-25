@@ -203,11 +203,11 @@ public class RegistroPagoController {
                 }
             }
 
-            String fechaTexto = dpFechaAprobacion.getEditor().getText();
-            if (!fechaTexto.matches("\\d{2}/\\d{2}/\\d{4}")) {
-                erroresPago.append("• Formato fecha: dd/mm/yyyy.\n");
-                valido = false;
-            }
+//            String fechaTexto = dpFechaAprobacion.getEditor().getText();
+//            if (!fechaTexto.matches("\\d{2}/\\d{2}/\\d{4}")) {
+//                erroresPago.append("• Formato fecha: dd/mm/yyyy.\n");
+//                valido = false;
+//            }
 
             lbErrorEstudiante.setText(erroresEstudiante.toString());
             lbErrorEstudiante.setVisible(erroresEstudiante.length() > 0);
