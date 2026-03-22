@@ -130,7 +130,7 @@ public class FtpEncryptedConsoleApp {
 
         if (manifestData.totalEncryptedBytes != null && manifestData.totalEncryptedBytes != payload.length) {
             throw new IllegalStateException(
-                "Tamano reconstruido no coincide. esperado=" + manifestData.totalEncryptedBytes + " actual=" + payload.length
+                "Tamaño reconstruido no coincide. esperado=" + manifestData.totalEncryptedBytes + " actual=" + payload.length
             );
         }
 
@@ -161,7 +161,7 @@ public class FtpEncryptedConsoleApp {
         String host = getEnv("FTP_HOST", "127.0.0.1");
         int port = Integer.parseInt(getEnv("FTP_PORT", "21"));
         String user = getEnv("FTP_USER", "user");
-        String pass = getEnv("FTP_PASSWORD", "12345");
+        String pass = getEnv("FTP_PASSWORD", "DaMrLicey#13");
 
         FTPClient client = new FTPClient();
         client.setConnectTimeout(10_000);
