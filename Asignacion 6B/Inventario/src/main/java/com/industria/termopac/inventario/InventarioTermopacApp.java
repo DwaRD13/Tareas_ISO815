@@ -20,7 +20,7 @@ public class InventarioTermopacApp extends Application {
 
     private static final String URL = "jdbc:mysql://localhost:3306/TERMOPAC?useSSL=false&serverTimezone=UTC";
     private static final String USER = "dward";
-    private static final String PASS = "DuM#12345@";
+    private static final String PASS = "12345@";
 
     private TableView<Articulo> tabla;
     private TextField txtCodigo, txtNombre, txtExistencia;

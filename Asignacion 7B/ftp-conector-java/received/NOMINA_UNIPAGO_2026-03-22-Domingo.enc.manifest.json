@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "chunkSizeBytes": 1024,
+  "totalChunks": 1,
+  "totalEncryptedBytes": 157,
+  "algorithm": "aes-256-gcm",
+  "files": [
+    "NOMINA_UNIPAGO_2026-03-22-Domingo.enc.part001"
+  ]
+}
